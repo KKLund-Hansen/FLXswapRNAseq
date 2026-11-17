@@ -23,7 +23,7 @@ qqline(corr.data$female)
 
 # Male
 shapiro.test(corr.data$male)
-# P = 6.439594e-08
+# P = 6.44e-08
 qqnorm(corr.data$male)
 qqline(corr.data$male)
 # No
@@ -33,6 +33,12 @@ qqline(corr.data$male)
 # Do a correlation test between the number of transcripts between groups in females and males
 cor.test(corr.data$female, corr.data$male, method = "spearman")
 # P = 8.434e-07
+
+
+# We also do a paired Wilcoxon signed-rank test
+wilcox.test(corr.data$female, corr.data$male, paired = T)
+# P = 6.084e-05
+
 
 
 #########################################  PLOT DATA  #########################################
@@ -58,15 +64,13 @@ dev.off()
 corr.data$log_female <- log10(corr.data$female)
 corr.data$log_male <- log10(corr.data$male)
 
-
 # The plot
 pdf("Correlation_log.pdf", family = "serif", width = 7, height = 7)
 
 par(mar = c(5, 5, 2, 2))
-plot(corr.data$log_female, corr.data$log_male, xlim = c(0, 4), xlab = "log(Female)", ylim = c(0, 2.5), 
-     ylab = "log(Male)", cex.axis = 1.25, cex.lab = 1.4, las = 1, pch = 16, col = "black", cex = 1.5)
-abline(lm(corr.data$log_male ~ corr.data$log_female), col = "black", lwd = 1.5)
+plot(corr.data$log_male, corr.data$log_female, xlim = c(0, 4), xlab = "log(Male)", ylim = c(0, 4),
+     ylab = "log(Female)", cex.axis = 1.25, cex.lab = 1.4, las = 1, pch = 16, col = "black", cex = 1.5)
+abline(a = 0, b = 1, col = "black", lwd = 1.5)
 
 dev.off()
-
 
